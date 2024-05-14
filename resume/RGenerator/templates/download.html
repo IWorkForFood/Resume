@@ -1,0 +1,347 @@
+{% load static %}
+
+<html lang="en">
+<head>
+<script
+src="https://code.jquery.com/jquery-2.2.4.js"
+integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+crossorigin="anonymous"></script>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: system-ui;
+    }
+    body{
+        background: #e5e5e5;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items:center;
+        min-height: 100vh;
+    }
+    .container
+    {
+        position: relative;
+        width: 100%;
+        min-height: 1000px;
+        background: #fff;
+        box-shadow: 0px 50px 100px rgba(0,0,0,0,1);
+        border-radius: 10px;
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        overflow: hidden;
+        border: 1px solid #ccc;
+    }
+    .container .left_Side
+    {
+        position: relative;
+        background: #14213d;
+        padding: 40px;
+        font-size: 13px;
+    }
+    .container .right_Side
+    {
+        position: relative;
+        background: #fff;
+        padding: 40px;
+    }
+    .profileText{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #fff;
+    }
+    .profileText .imgBx{
+        position: relative;
+        width: 200px;
+        height: auto;
+        overflow: hidden;
+    }
+    .profileText h2{
+        color: #fff;
+        font-size: 1.5em;
+        text-align:center;
+        font-weight: 500;
+    }
+    .profileText h2 span{
+        font-size: 1em;
+        font-weight: 200;
+    }
+    .personalInfo{
+        padding-top: 25px;
+    }
+    .sectionsName{
+        color: #fff;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+    .personalInfo ul li{
+        list-style:none;
+        margin-left: 20px;
+        margin-top: 7px;
+        color: #fff
+    }
+    .personalInfo .sectionsName .icon{
+        display: inline-block;
+        width: 30px;
+    }
+
+    .wideInfo{
+        margin-bottom: 35px;
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow: hidden;
+    }
+
+    .wideInfo p{
+        color: #000;
+        display: block;
+        max-width: 600px;
+    }
+
+    .wideInfo .aboutTitle{
+        color: #fca311;
+    }
+    .experienceBlock, .educationBlock{
+        display: flex;
+        margin-top: 30px;
+    }
+
+    .university, .firm{
+        display: inline-block;
+        width: 200px;
+
+    }
+
+    .wideInfo .skills{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .skills span{
+        display: inline-block;
+        width: 20%; /* Задаем ширину элемента (в данном случае 33.33% для 3 элементов в строке) */
+        margin: 5px; /* Задаем отступ между элементами */
+    }
+
+    .wideInfo .education{
+        display: flex;
+        flex-direction:column;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .education span{
+        display: block;
+        width: 33%; /* Задаем ширину элемента (в данном случае 33.33% для 3 элементов в строке) */
+        margin: 5px; /* Задаем отступ между элементами */
+    }
+    .under-panel{
+
+        width: 100%;
+        max-width: 1000px;
+        min-height: 60px;
+        box-shadow: 0px 50px 100px rgba(0,0,0,0,1);
+        border-radius: 10px;
+        margin-bottom: 40px;
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        border: 1px solid #ccc;
+    }
+    #download{
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #14213d;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        border-radius: 30px;
+        margin: 10px auto;
+        display: block;
+    }
+    #download:hover {
+        background-color: #217dbb;
+    }
+    .imgBx{
+        text-align: center;
+    }
+
+</style>
+
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+    <div class="container">
+        <div class="left_Side">
+            <div class="profileText">
+
+                <h2>
+                    {% if name %}{{name}}{% endif %}
+                    {% if surname %}{{surname}}{% endif %}
+                    <span>
+                        {% if position %}{{position}}{% endif %}
+                    </span>
+                </h2>
+
+            </div>
+
+            {% if email or phone %}
+            <div class="personalInfo">
+
+                <h3 class="sectionsName">
+                    <span class="icon"></span>
+                    <span class="textPart">Контактные данные</span>
+                </h3>
+
+                <ul>
+                    <li class="sectionText">{% if email %}e-mail: {{ email }}{% endif %}</li>
+                    <li class="sectionText">{% if phone %}Номер телефона: {{ phone }}{% endif %}</li>
+                </ul>
+
+            </div>
+
+            {% endif %}
+
+            {% if desired_salary or citizenship %}
+            <div class="personalInfo">
+                <h3 class="sectionsName">
+                    <span class="icon"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                    <span class="textPart">Дополнительная информация</span>
+                </h3>
+
+                <ul>
+                    <li class="sectionText">{% if desired_salary %}Желаемая зарплата: {{ desired_salary }}{% endif %}</li>
+                    <li class="sectionText">{% if citizenship %} Гражданство: {{ citizenship }}{% endif %}</li>
+                </ul>
+
+            </div>
+            {% endif %}
+
+            {% if city %}
+            <div class="personalInfo">
+                <h3 class="sectionsName">
+                    <span class="icon"><i class="fa fa-home" aria-hidden="true"></i></span>
+                    <span class="textPart">Место проживания</span>
+                </h3>
+
+                <ul>
+                    <li class="sectionText">{{ city }}</li>
+                </ul>
+
+            </div>
+            {% endif %}
+
+        </div>
+        <div class="right_Side">
+
+            {% if age %}
+            <div class="wideInfo">
+                <h3 style="color: #808080"><i class="fa fa-info" aria-hidden="true"></i> Возраст: {{ age }}</h3>
+            </div>
+            {% endif %}
+            {% if about_yourself %}
+            <div class="wideInfo">
+                <h2 class="aboutTitle">О себе</h2>
+                <p>{{ about_yourself }}</p>
+            </div>
+            {% endif %}
+
+            {% if skills %}
+            <div class="wideInfo">
+                <h2 class="aboutTitle">Навыки</h2>
+                <div class = 'education'>
+                    {% for skill in skills%}
+                        <span>{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if experience_position1 or experience_firm1 or position_achieve1 or experience_position2 or experience_firm2 or position_achieve2 or experience_position3 or experience_firm3 or position_achieve3 %}
+            <div class="wideInfo">
+                <h2 class="aboutTitle">Опыт работы</h2>
+                {% if experience_position1 or experience_firm1 or position_achieve1 %}
+
+                <div class="experienceBlock">
+                    <div class="firm">{{experience_position1}}</div>
+                    <div class="positionStory">
+                        <h3>{{experience_firm1}}</h3>
+                        <p>{{position_achieve1}}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if experience_position2 or experience_firm2 or position_achieve2 %}
+
+                <div class="experienceBlock">
+                    <div class="firm">{{experience_position2}}</div>
+                    <div class="positionStory">
+                        <h3>{{experience_firm2}}</h3>
+                        <p>{{position_achieve2}}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if experience_position3 or experience_firm3 or position_achieve3 %}
+
+                <div class="experienceBlock">
+                    <div class="firm">{{experience_position3}}</div>
+                    <div class="positionStory">
+                        <h3>{{experience_firm3}}</h3>
+                        <p>{{position_achieve3}}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {% if educational_institution1 or specialization1 or senior_year1 and senior_year1 != 'Год' or educational_institution2 or specialization2 or senior_year2 and senior_year2 != 'Год' or educational_institution3 or specialization3 or senior_year3 and senior_year3 != 'Год' %}
+            <div class="wideInfo">
+
+                <h2 class="aboutTitle">Образование</h2>
+                {% if educational_institution1 or specialization1 or senior_year1 and senior_year1 != 'Год' %}
+                <div class="educationBlock">
+                    <div class="university">{{educational_institution1 }}</div>
+                    <div class="nuances">
+                        <h3>{{specialization1 }}</h3>
+                        <p>{% if senior_year1 != 'Год' %}{{senior_year1}}{% endif %}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if oeducational_institution2 or specialization2 or senior_year2 and senior_year2 != 'Год' %}
+                <div class="educationBlock">
+                    <div class="university">{{educational_institution2}}</div>
+                    <div class="nuances">
+                        <h3>{{specialization2}}</h3>
+                        <p>{% if senior_year2 != 'Год' %}{{senior_year2}}{% endif %}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% if educational_institution3 or specialization3 or senior_year3 and senior_year3 != 'Год' %}
+                <div class="educationBlock">
+                    <div class="university">{{educational_institution3 }}</div>
+                    <div class="nuances">
+                        <h3>{{specialization3}}</h3>
+                        <p>{% if senior_year3 != 'Год' %}{{senior_year3}}{% endif %}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+
+        </div>
+    </div>
+</body>
+</html>

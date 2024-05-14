@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui;
+        }
+        footer {
+            background-color: #000;
+            color: white;
+            padding: 10px 0;
+            width: 100%;
+            text-align: center;
+        }
+        header {
+            background-color: #000;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            font-family: Mistral;
+            font-size: 16px;
+            line-height: 1.5;
+            font-style: oblique;
+        }
+    </style>
+    {% block filling %}Default Title{% endblock %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header><span>CV-generator</span><span></span></header>
+
+        {% block content %}{% endblock %}
+
+    <footer>&copy; Все права не защищены</footer>
+</body>
+</html>

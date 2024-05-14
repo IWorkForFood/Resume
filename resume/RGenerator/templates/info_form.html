@@ -1,0 +1,431 @@
+{% extends 'foothead.html' %}
+{% load static %}
+    {% block filling %}
+    <title>Ввод данных</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('{% static 'img/main2.jpg' %}');
+            background-attachment: fixed;
+            background-position: 50% 70%;
+
+        }
+        .main-form{
+            margin-top: 20px;
+        }
+
+        .form-collector {
+            color: grey;
+            width: 60%;
+            margin-top: 60px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            margin-bottom: 20px;
+        }
+
+        .form-collector h2{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #fca311;
+        }
+
+        .form-brick {
+            margin: 0px 15px 0px 15px;
+            flex: 1;
+        }
+
+        .form-brick label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .about-yourself{
+            height: 50px;
+        }
+
+        .form-brick input[type="text"],
+        .form-brick input[type="number"],
+        .form-brick input[type="email"]{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-brick textarea {
+            height: 100px;
+        }
+        .h-form-wall{
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            align-content: space-around;
+        }
+        .form-brick input[type="file"]{
+            margin: 0 auto;
+        }
+        .form-brick input[type="file"]::file-selector-button {
+          border-radius: 4px;
+          padding: 0 16px;
+          height: 40px;
+          cursor: pointer;
+          background-color: white;
+          border: 1px solid rgba(0, 0, 0, 0.16);
+          box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+          margin-right: 16px;
+          transition: background-color 200ms;
+
+        }
+        input[type="file"]::file-selector-button:hover {
+          background-color: #f3f4f6;
+        }
+        .form-collector h2, h3, h5{
+
+            padding-left: 15px;
+        }
+
+        .form-collector button[type="submit"]{
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #14213d;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            border-radius: 30px;
+            margin: 10px auto;
+            display: block;
+        }
+        .form-collector button[type="submit"]:hover {
+            background-color: #217dbb;
+        }
+        .select{
+             padding: 10px;
+             border: 1px solid #ccc;
+             border-radius: 5px;
+             cursor: pointer;
+             width: 100%
+        }
+        .about-yourself{
+            width: 100%;
+        }
+
+        .download_title{
+            margin: 0 auto;
+            height: 50px;
+        }
+
+        div.scroll-container {
+            background-color: #333;
+            overflow: auto;
+            white-space: nowrap;
+            padding: 10px;
+            width: 60%;
+            margin: 0 auto;
+        }
+
+        div.scroll-container span {
+
+            float: left;
+        }
+        .furfur{
+            margin: 0;
+            padding: 0;
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            overflow: auto;
+            white-space: nowrap;
+            padding: 10px;
+
+        }
+
+        .gallery {
+            display: flex;
+            white-space: nowrap;
+        }
+
+        .gellery a{
+            text-decoration: none;
+        }
+
+        .gallery-item {
+            display: flex;
+            padding: 20px 20px;
+            margin: 0px 5px;
+            background: red;
+            overflow: hidden;
+            flex: 0 0 300px;
+            height: 100px;
+            scroll-snap-align: start;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            color: #14213d;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .no-item{
+            width: 100%;
+            height: 60px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            text-align: center;
+        }
+        .musiem{
+            width: 60%;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+        .inside-g-item{
+            display:inline-block;
+            height: 100%;
+        }
+        .inside-g-item p{
+            color: grey;
+            font-weight: 10px;
+            font-weight: 10;
+        }
+
+    </style>
+    {% endblock %}
+{% block content %}
+<body>
+    <form class="main-form" method='post' enctype="multipart/form-data">
+        <div class="musiem">
+            <div class="download_title"><h2>Скачанные ранее резюме:</h2></div>
+
+            {% if documents %}
+            <div class="furfur">
+                <div class="gallery">
+                    {% for document in documents %}
+                        <a href="/media/pdf-files/{{document.title}}" style="text-decoration: none;">
+                            <div class="gallery-item">
+                                <div class="inside-g-item"><i class="fa fa-file-pdf-o fa-50x" aria-hidden="true"></i></div>
+                                <div class="inside-g-item">{{document.title}}<br/><p>Просмотреть</p></div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if not documents %}<div class="no-item"><h2>Нет файлов</h2></div>{% endif %}
+
+        </div>
+
+        {% csrf_token %}
+        <!-- {{ cv_form.as_p}} -->
+        <div class="form-collector">
+            <p>*Здесь вы можете ввести данные для своего </p>
+            <p>резюме(Каждое поле не является обязательным):</p>
+            <h2>Основная информация</h2>
+            <div class="form-brick">
+                <label>{{ cv_form.position.label }}</label>
+                {{ cv_form.position }}
+            </div>
+
+            <div class = "h-form-wall">
+
+
+                    <div class="form-brick">
+                        <label>{{ cv_form.name.label }}</label>
+                        {{ cv_form.name }}
+                    </div>
+
+                    <div class="form-brick">
+                        <label>{{ cv_form.surname.label }}</label>
+                        {{ cv_form.surname }}
+                    </div>
+
+
+            </div>
+
+            <div class="h-form-wall">
+                <div class="form-brick">
+                    <label for="phone">{{ cv_form.birthday.label }}</label>
+                    {{ cv_form.birthday }}
+                </div>
+                <div class="form-brick">
+                    <label for="phone">{{ cv_form.birthmonth.label }}</label>
+                    {{ cv_form.birthmonth }}
+                </div>
+                <div class="form-brick">
+                    <label for="phone">{{ cv_form.birthyear.label }}</label>
+                    {{ cv_form.birthyear }}
+                </div>
+            </div>
+
+            <div class="form-brick">
+                <label for="phone">{{ cv_form.city.label }}</label>
+                {{ cv_form.city }}
+            </div>
+
+            <h3>Контактная информация</h3>
+            <div class="h-form-wall">
+                <div class="form-brick">
+                    <label for="phone">{{ cv_form.phone.label }}</label>
+                    {{ cv_form.phone }}
+                </div>
+                <div class="form-brick">
+                <label for="email">{{ cv_form.email.label }}</label>
+                    {{ cv_form.email }}
+                    <p>{{ form.email.errors }}</p>
+                </div>
+
+            </div>
+
+            <h3>Дополнительная информация</h3>
+            <div class="h-form-wall">
+                <div class="form-brick">
+                <label for="phone">{{ cv_form.desired_salary.label }}</label>
+                {{ cv_form.desired_salary }}
+                </div>
+                <div class="form-brick">
+                <label for="phone">{{ cv_form.citizenship.label }}</label>
+                {{ cv_form.citizenship }}
+                </div>
+            </div>
+
+            <!------Навыки--------->
+            <h3>Навыки:</h3>
+            <div class="form-brick">
+                <div class="om">
+
+                    {{cv_form.skill1}}
+                    {{cv_form.skill2}}
+                    {{cv_form.skill3}}
+                    {{cv_form.skill4}}
+                    {{cv_form.skill5}}
+                    {{cv_form.skill6}}
+                    {{cv_form.skill7}}
+                    {{cv_form.skill8}}
+
+                </div>
+            </div>
+
+            <!-- -----Expirience 1----- -->
+            <h3>Опыт работы</h3>
+            <h5>Опыт работы 1</h5>
+            <div class="h-form-wall">
+                <div class="form-brick">
+                    <label for="degree1">{{cv_form.experience_position1.label}}</label>
+                    {{cv_form.experience_position1}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.experience_firm1.label}}</label>
+                    {{cv_form.experience_firm1}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.position_achieve1.label}}</label>
+                    {{cv_form.position_achieve1}}
+                </div>
+            </div>
+            <!-- -----Expirience 2----- -->
+
+            <h5>Опыт работы 2</h5>
+            <div class="h-form-wall">
+                <div class="form-brick">
+                    <label for="degree1">{{cv_form.experience_position2.label}}</label>
+                    {{cv_form.experience_position2}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.experience_firm2.label}}</label>
+                    {{cv_form.experience_firm2}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.position_achieve2.label}}</label>
+                    {{cv_form.position_achieve2}}
+                </div>
+            </div>
+
+            <!-- -----Expirience 3----- -->
+            <h5>Опыт работы 3</h5>
+            <div class="h-form-wall">
+                <div class="form-brick">
+                    <label for="degree1">{{cv_form.experience_position3.label}}</label>
+                    {{cv_form.experience_position3}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.experience_firm3.label}}</label>
+                    {{cv_form.experience_firm3}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.position_achieve3.label}}</label>
+                    {{cv_form.position_achieve3}}
+                </div>
+            </div>
+
+            <!-- -----EDUCATION 1----- -->
+            <h5>Образование 1</h5>
+            <div class="h-form-wall">
+                <div class="form-brick">
+                    <label for="degree1">{{cv_form.educational_institution1.label}}</label>
+                    {{cv_form.educational_institution1}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.specialization1.label}}</label>
+                    {{cv_form.specialization1}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.senior_year1.label}}</label>
+                    {{cv_form.senior_year1}}
+                </div>
+            </div>
+
+            <!-- -----EDUCATION 2----- -->
+            <h5>Образование 2</h5>
+            <div class="h-form-wall">
+                <div class="form-brick">
+                    <label for="degree1">{{cv_form.educational_institution2.label}}</label>
+                    {{cv_form.educational_institution2}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.specialization2.label}}</label>
+                    {{cv_form.specialization2}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.senior_year2.label}}</label>
+                    {{cv_form.senior_year2}}
+                </div>
+            </div>
+
+            <!-- -----EDUCATION 3----- -->
+            <h5>Образование 3</h5>
+            <div class="h-form-wall">
+                <div class="form-brick">
+                    <label for="degree1">{{cv_form.educational_institution3.label}}</label>
+                    {{cv_form.educational_institution3}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.specialization3.label}}</label>
+                    {{cv_form.specialization3}}
+                </div>
+                <div class="form-brick">
+                    <label for="college1">{{cv_form.senior_year3.label}}</label>
+                    {{cv_form.senior_year3}}
+                </div>
+            </div>
+
+
+            <h3>О себе</h3>
+            <div class="h-form-wall">
+                <div class="form-brick">
+                    {{cv_form.about_yourself}}
+                </div>
+            </div>
+
+            <div class="form-brick">
+                <button type="submit" >Просмотреть резюме</button>
+            </div>
+        </div>
+
+    </form>
+</body>
+{% endblock %}
+
